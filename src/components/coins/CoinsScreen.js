@@ -10,14 +10,14 @@ const CoinsScreen = (props) => {
     }
     const coins = useCoins()
     return(
-        <View style={tw`flex items-center h-full bg-gray-300 `}>
+        <View style={tw`flex items-center h-full bg-gray-200 `}>
             <Text style={tw`font-bold text-xl font-bold py-2`}>Coins screen</Text>
             {
                 !coins[0].length ?
                 <ActivityIndicator color="#fff" size="large"/>
                 :
                 <FlatList
-                    style={tw`w-10/12 bg-gray-400 rounded-lg px-4 py-2`}
+                    style={tw`w-10/12 bg-blue-200 shadow-lg rounded-lg px-4 py-2`}
                     data={coins[0]}
                     renderItem={({ item }) => 
                         <CoinItem
