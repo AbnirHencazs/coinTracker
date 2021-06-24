@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, Pressable } from 'react-native'
 import tw from 'tailwind-react-native-classnames'
+import useCoins from '../../hooks/useCoins'
+import Http from '../../libs/http'
 const CoinsScreen = (props) => {
     const handlePress = () => {
         props.navigation.navigate('CoinDetail')
     }
+
+    const coins = useCoins()
     return(
         <View style={tw`flex items-center h-full bg-gray-300 `}>
             <Text style={tw`font-bold text-xl font-bold py-2`}>Coins screen</Text>
