@@ -1,10 +1,16 @@
 import React from 'react'
 import { View, Text } from 'react-native'
+import tw from 'tailwind-react-native-classnames'
+import FavoritesEmpty from './FavoritesEmpty'
 
-const FavoritesScreen = () => {
+const FavoritesScreen = ({favorites}) => {
     return(
-        <View>
-            <Text>Favorites Screen</Text>
+        <View style={tw`flex-1 bg-gray-800`}>
+            {
+                favorites === undefined ?
+                <FavoritesEmpty/>
+                :<Text>Tienes favoritos</Text>
+            }
         </View>
     )
 }
