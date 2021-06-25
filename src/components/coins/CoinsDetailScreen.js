@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react'
-import { View, Image,Text, SectionList, FlatList, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, Image, Text, Pressable, SectionList, FlatList, ActivityIndicator } from 'react-native'
 import tw from 'tailwind-react-native-classnames'
 import useMarkets from '../../hooks/useMarkets'
+import Storage from '../../libs/storage'
 import CoinMarketItem from './CoinMarketItem'
 
 const CoinDetailScreen = ({route, navigation}) => {
     const coin = route.params.coin
+    const [ isFavorite, setIsFavorite ] = useState(false)
     const markets = useMarkets(coin.id)
     const getSymbolIcon = (coinNameId) => {
         if (coinNameId){
@@ -32,11 +34,31 @@ const CoinDetailScreen = ({route, navigation}) => {
         ]
         return sections
     }
+    const addFavorite = () => {
+        const data = JSON.stringify(coin)
+        const key = `favorite-${coin.id}`
+
+        const stored = Storage.instance.store(key, data)
+        console.log(stored)
+        if(stored){
+            setIsFavorite(true)
+        }
+    }
+    const removeFavorite = () => {
+
+    }
     return(
         <View style={tw`flex-1 bg-gray-800`}>
-            <View style={tw`flex flex-row items-center pl-2 py-3`}>
-                <Image style={tw`h-8 w-8`} source={{ uri: getSymbolIcon(coin.nameid) }}/>
-                <Text style={tw`text-white pl-2 text-lg font-bold`}>{coin.name}</Text>
+            <View style={tw`flex flex-row items-center justify-between pl-2 py-3`}>
+                <View style={tw`flex flex-row`}>
+                    <Image style={tw`h-8 w-8`} source={{ uri: getSymbolIcon(coin.nameid) }}/>
+                    <Text style={tw`text-white pl-2 text-lg font-bold`}>{coin.name}</Text>
+                </View>
+                <Pressable
+                    onPress={isFavorite ? removeFavorite : addFavorite}
+                    style={tw`px-4 py-2 rounded mr-2 ${isFavorite ? "bg-red-500": "bg-green-500"}`}>
+                    <Text style={tw`text-white`}>{isFavorite ? "Remove Favorite" : "Add Favorite"}</Text>
+                </Pressable>
             </View>
             <SectionList
             style={tw`max-h-52`}
