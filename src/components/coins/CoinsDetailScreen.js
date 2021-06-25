@@ -4,10 +4,9 @@ import tw from 'tailwind-react-native-classnames'
 
 const CoinDetailScreen = ({route, navigation}) => {
     const [ coin, setCoin ] = useState({})
-    const getSymbolIcon = (name) => {
-        if (name){
-            const symbol = name.toLowerCase().replace(' ','-')
-            return `https://c1.coinlore.com/img/25x25/${symbol}.png`
+    const getSymbolIcon = (coinNameId) => {
+        if (coinNameId){
+            return `https://c1.coinlore.com/img/25x25/${coinNameId}.png`
         }
     }
     useEffect(() => {
@@ -17,7 +16,7 @@ const CoinDetailScreen = ({route, navigation}) => {
     return(
         <View style={tw`flex-1 bg-blue-100`}>
             <View style={tw`flex flex-row items-center`}>
-                <Image style={tw`h-8 w-8`} source={{ uri: getSymbolIcon(coin.name) }}/>
+                <Image style={tw`h-8 w-8`} source={{ uri: getSymbolIcon(coin.nameid) }}/>
                 <Text>{coin.name}</Text>
             </View>
         </View>

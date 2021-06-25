@@ -9,8 +9,9 @@ const CoinsStack = () => {
     return(
         <Stack.Navigator
             screenOptions={{
-                headerStyle: {backgroundColor: colors.ligthestBlue},
-                headerTintColor: colors.darkBlue
+                headerStyle: {backgroundColor: colors.gray9},
+                headerTitleAlign: 'center',
+                headerTintColor: colors.white
             }}>
             <Stack.Screen name="Coins" component={CoinsScreen}/>
             <Stack.Screen name="CoinDetail" component={CoinDetailScreen}/>
