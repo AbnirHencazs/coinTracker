@@ -1,15 +1,18 @@
 import React, { useEffect } from 'react'
-import { View, Image,Text, SectionList } from 'react-native'
+import { View, Image,Text, SectionList, FlatList, ActivityIndicator } from 'react-native'
 import tw from 'tailwind-react-native-classnames'
+import useMarkets from '../../hooks/useMarkets'
+import CoinMarketItem from './CoinMarketItem'
 
 const CoinDetailScreen = ({route, navigation}) => {
     const coin = route.params.coin
+    const markets = useMarkets(coin.id)
     const getSymbolIcon = (coinNameId) => {
         if (coinNameId){
             return `https://c1.coinlore.com/img/25x25/${coinNameId}.png`
         }
     }
-    useEffect(() => {
+    useEffect( async () => {
         navigation.setOptions({title: coin.symbol})
     }, [])
     const getSections = (coin) => {
@@ -36,6 +39,7 @@ const CoinDetailScreen = ({route, navigation}) => {
                 <Text style={tw`text-white pl-2 text-lg font-bold`}>{coin.name}</Text>
             </View>
             <SectionList
+            style={tw`max-h-52`}
                 sections={getSections(coin)}
                 keyExtractor={(item) => item}
                 renderItem={ ({item}) => 
@@ -48,6 +52,20 @@ const CoinDetailScreen = ({route, navigation}) => {
                         <Text style={tw`text-white pl-2 font-bold`}>{section.title}</Text>
                     </View>
                 }/>
+            <Text style={tw`text-lg font-bold text-white pl-2`}>Markets</Text>
+            {
+                markets.length ?
+                <FlatList
+                    style={tw`mt-2`}
+                    data={markets}
+                    keyExtractor={(item) => `${item.base}-${item.name}-${item.quote}`}
+                    renderItem={({item}) => 
+                        <CoinMarketItem
+                            item={item}/>
+                    }
+                    horizontal={true}/>
+                :<ActivityIndicator color="#fff" size="large" />
+            }
         </View>
     )
 }
