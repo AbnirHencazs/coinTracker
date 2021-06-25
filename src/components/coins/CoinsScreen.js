@@ -5,12 +5,15 @@ import useCoins from '../../hooks/useCoins'
 import CoinItem from './CoinItem'
 
 const CoinsScreen = (props) => {
-    const handlePress = () => {
+    const handleNav = () => {
         props.navigation.navigate('CoinDetail')
+    }
+    const handlePress = (coin) => {
+        props.navigation.navigate('CoinDetail', { coin })
     }
     const coins = useCoins()
     return(
-        <View style={tw`flex items-center h-full bg-gray-200 `}>
+        <View style={tw`flex-1 items-center bg-blue-100 `}>
             <Text style={tw`font-bold text-xl font-bold py-2`}>Coins screen</Text>
             {
                 !coins[0].length ?
@@ -21,13 +24,11 @@ const CoinsScreen = (props) => {
                     data={coins[0]}
                     renderItem={({ item }) => 
                         <CoinItem
+                            handlePress={() => { handlePress(item) }}
                             item={item}/>
                     }
                 />
             }
-            <Pressable onPress={ handlePress } style={tw`rounded flex justify-center my-2 w-10/12 bg-blue-500 py-2`}>
-                <Text style={tw`text-base font-semibold text-white text-center`}>Ir al detalle</Text>
-            </Pressable>
         </View>
     )
 }
