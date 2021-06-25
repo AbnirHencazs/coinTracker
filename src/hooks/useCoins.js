@@ -12,7 +12,7 @@ const useCoins = () => {
         })()
     }, [])
 
-    return [coins]
+    return coins
 }
 
 export default useCoins
