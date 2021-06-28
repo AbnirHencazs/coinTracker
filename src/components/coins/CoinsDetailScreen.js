@@ -40,7 +40,6 @@ const CoinDetailScreen = ({route, navigation}) => {
         const key = `favorite-${coin.id}`
 
         const stored = await Storage.instance.store(key, data)
-        console.log(stored)
         if(stored){
             setIsFavorite(true)
         }
