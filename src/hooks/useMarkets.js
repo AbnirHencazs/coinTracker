@@ -8,7 +8,6 @@ const useMarkets = (coinId) => {
         (async () => {
             const response = await Http.instance.get(`https://api.coinlore.net/api/coin/markets/?id=${coinId}`)
             setMarkets(response)
-            console.log(response)
         })()
     }, [])
 

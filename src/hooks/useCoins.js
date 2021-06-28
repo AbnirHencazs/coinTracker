@@ -8,7 +8,6 @@ const useCoins = () => {
         (async () => {
             const response = await Http.instance.get("https://api.coinlore.net/api/tickers")
             setCoins(response.data)
-            console.log(response.data)
         })()
     }, [])
 
