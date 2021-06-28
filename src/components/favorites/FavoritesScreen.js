@@ -10,8 +10,11 @@ const FavoritesScreen = ({navigation}) => {
     const [ favorites, setFavorites ] = useState([])
 
     useEffect( () => {
-        getFavorites()
-    }, [] )
+        const unsubscribe = navigation.addListener('focus', () => {
+            getFavorites()
+        })
+        return unsubscribe
+    }, [navigation] )
 
     const getFavorites = async () => {
         try {
