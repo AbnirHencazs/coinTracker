@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Image, Text, Pressable, SectionList, FlatList, ActivityIndicator } from 'react-native'
+import { View, Image, Text, Pressable, SectionList, FlatList, ActivityIndicator, Alert } from 'react-native'
 import tw from 'tailwind-react-native-classnames'
 import useMarkets from '../../hooks/useMarkets'
 import Storage from '../../libs/storage'
@@ -16,6 +16,7 @@ const CoinDetailScreen = ({route, navigation}) => {
     }
     useEffect( async () => {
         navigation.setOptions({title: coin.symbol})
+        getFavorite()
     }, [])
     const getSections = (coin) => {
         const sections = [
@@ -34,18 +35,49 @@ const CoinDetailScreen = ({route, navigation}) => {
         ]
         return sections
     }
-    const addFavorite = () => {
+    const addFavorite = async () => {
         const data = JSON.stringify(coin)
         const key = `favorite-${coin.id}`
 
-        const stored = Storage.instance.store(key, data)
+        const stored = await Storage.instance.store(key, data)
         console.log(stored)
         if(stored){
             setIsFavorite(true)
         }
     }
     const removeFavorite = () => {
+        Alert.alert("Remove favorite", "Are you sure?", [
+            {
+                text: "Cancel",
+                onPress: () => {},
+                style: "cancel"
+            },
+            {
+                text: "Remove",
+                onPress: async () => {
+                    const key = `favorite-${coin.id}`
 
+                    const removed = await Storage.instance.remove(key)
+                    if(removed){
+            setIsFavorite(false)
+        }
+                },
+                style: "destructive"
+            }
+        ])
+    }
+
+    const getFavorite = async () => {
+        try {
+            const key = `favorite-${coin.id}`
+
+            const favStr = await Storage.instance.get(key)
+            if( favStr !== null ){
+                setIsFavorite(true)
+            }
+        } catch (error) {
+            console.log("get favorite error", error)
+        }
     }
     return(
         <View style={tw`flex-1 bg-gray-800`}>
