@@ -26,7 +26,7 @@ class Storage {
 
     get = async (key) => {
         try {
-            return await AsyncStorage.getItem(kkey)
+            return await AsyncStorage.getItem(key)
         } catch (error) {
             console.error("storage get error", error)
             throw Error(error)
